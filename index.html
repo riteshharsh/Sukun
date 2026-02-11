@@ -29,7 +29,6 @@
     </div>
 
     <div class="emoji-grid">
-
       <div class="emoji" data-module="daily">😊</div>
       <div class="emoji" data-module="sad">😔</div>
       <div class="emoji" data-module="photos">😘</div>
@@ -39,7 +38,6 @@
       <div class="emoji" data-module="games">🎮</div>
       <div class="emoji" data-module="wheel">🎡</div>
       <div class="emoji" data-module="diary">💌</div>
-
     </div>
 
   </section>
@@ -59,9 +57,12 @@
 </div>
 
 <!-- ================= JS LOAD ORDER (VERY IMPORTANT) ================= -->
-
+<!-- Modules FIRST -->
 <script src="photos.js"></script>
 <script src="jokes.js"></script>
+<script src="gussa.js"></script>
+
+<!-- Main app LAST -->
 <script src="app.js"></script>
 
 </body>
