@@ -80,15 +80,9 @@ function openModule(module) {
     sadFlow(content);
   }
 
-  /* 😘 PHOTOS (Drive Gallery) */
+  /* 😘 PHOTOS (Now from photos.js) */
   else if (module === "photos") {
-    content.innerHTML = `
-      <h2>😘 Choose Folder</h2>
-      <button onclick="loadDriveFolder('1B4KxNZh0ziq4BgUIQKflcht7Yaz4IWao')">😚</button>
-      <button onclick="loadDriveFolder('1J9WT6DMdGUdO1oDVKeULHOCAnBC1odw0')">😙</button>
-      <button onclick="loadDriveFolder('152KBJtdTNdmhqZ_wbQsGn6HyBkE6DpOf')">😗</button>
-      <div id="drive-gallery"></div>
-    `;
+    openPhotosModule(content);   // 👈 Modular call
   }
 
   /* 😂 JOKES */
@@ -169,29 +163,13 @@ function openModule(module) {
   showScreen(moduleScreen);
 }
 
-/* ================= DRIVE LOADER ================= */
+/* ================= SAD FLOW ================= */
 
-function loadDriveFolder(folderId) {
-  const gallery = document.getElementById("drive-gallery");
-  gallery.innerHTML = "Loading...";
-
-  fetch("https://script.google.com/macros/s/AKfycbz8IvH2Zb_tSalN7ov5xO65JWdX2_FwuVevWMuKJrjFyCVCrPO9hhVD1bJBsAAAmUIX/exec?folder=" + folderId)
-    .then(res => res.json())
-    .then(data => {
-
-      if (!data.files || data.files.length === 0) {
-        gallery.innerHTML = "<p>No images found.</p>";
-        return;
-      }
-
-      gallery.innerHTML = data.files.map(file =>
-        `<img src="${file.url}" style="width:120px;margin:10px;border-radius:12px;">`
-      ).join("");
-
-    })
-    .catch(() => {
-      gallery.innerHTML = "<p>Error loading images.</p>";
-    });
+function sadFlow(content) {
+  content.innerHTML = `
+    <h2>😔</h2>
+    <p>Tum theek ho na?</p>
+  `;
 }
 
 /* ================= DIARY ================= */
