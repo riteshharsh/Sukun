@@ -32,17 +32,24 @@ loginBtn.addEventListener("click", () => {
 /* ================= SCREEN ================= */
 
 function showScreen(screen) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".screen").forEach(s =>
+    s.classList.remove("active")
+  );
   screen.classList.add("active");
 }
 
-backBtn.addEventListener("click", () => showScreen(dashboardScreen));
+backBtn.addEventListener("click", () =>
+  showScreen(dashboardScreen)
+);
 
 /* ================= DARK MODE ================= */
 
 function toggleDark() {
   document.body.classList.toggle("dark");
-  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
+  localStorage.setItem(
+    "darkMode",
+    document.body.classList.contains("dark")
+  );
 }
 
 darkToggle.addEventListener("click", toggleDark);
@@ -89,7 +96,7 @@ function openModule(module) {
     }
   }
 
-  /* 😂 PROFESSIONAL JOKES ENGINE */
+  /* 😂 JOKES ENGINE */
   else if (module === "jokes") {
     if (typeof startJokesEngine === "function") {
       startJokesEngine();
@@ -98,14 +105,13 @@ function openModule(module) {
     }
   }
 
-  /* 😡 GUSSA */
+  /* 😡 GUSSA (MODULAR) */
   else if (module === "gussa") {
-    content.innerHTML = `
-      <h2>😡 Calm Down</h2>
-      <p>Deep breath lo…</p>
-      <p>Main hoon na 💙</p>
-      <button onclick="openModule('gussa')">Thoda aur calm 😌</button>
-    `;
+    if (typeof openGussaModule === "function") {
+      openGussaModule(content);
+    } else {
+      content.innerHTML = "<p>Gussa module not loaded.</p>";
+    }
   }
 
   /* 😴 NIGHT */
@@ -189,7 +195,9 @@ function saveDiary() {
 function loadDiary() {
   const historyDiv = document.getElementById("diary-history");
   const entries = JSON.parse(localStorage.getItem("diaryEntries") || "[]");
-  historyDiv.innerHTML = entries.map(e => `<p>${e.time} - ${e.text}</p>`).join("");
+  historyDiv.innerHTML = entries.map(e =>
+    `<p>${e.time} - ${e.text}</p>`
+  ).join("");
 }
 
 function saveData(key, text) {
