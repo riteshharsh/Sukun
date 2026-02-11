@@ -80,24 +80,8 @@ function openModule(module) {
     sadFlow(content);
   }
 
-  /* 💌 DIARY */
-  else if (module === "diary") {
-    diaryModule(content);
-  }
-
-  /* 🎮 GAMES */
-  else if (module === "games") {
-    content.innerHTML = `
-      <h2>🎮 Game Zone</h2>
-      <button onclick="focusGame()">Focus Game</button>
-      <button onclick="truthDareGame()">Truth & Dare</button>
-      <button onclick="startQuiz()">Movie Quiz</button>
-      <button onclick="spinWheelGame()">Spin Wheel</button>
-    `;
-  }
-
-  /* 😘 DRIVE GALLERY */
-  else if (module === "kiss") {
+  /* 😘 PHOTOS (Drive Gallery) */
+  else if (module === "photos") {
     content.innerHTML = `
       <h2>😘 Choose Folder</h2>
       <button onclick="loadDriveFolder('1B4KxNZh0ziq4BgUIQKflcht7Yaz4IWao')">😚</button>
@@ -105,6 +89,77 @@ function openModule(module) {
       <button onclick="loadDriveFolder('152KBJtdTNdmhqZ_wbQsGn6HyBkE6DpOf')">😗</button>
       <div id="drive-gallery"></div>
     `;
+  }
+
+  /* 😂 JOKES */
+  else if (module === "jokes") {
+    const jokes = [
+      "Tum itne cute ho ki Google bhi search kare 😜",
+      "Tumhari smile WiFi jaisi hai 😆",
+      "Tum haste ho toh duniya set lagti hai 😁",
+      "Aaj ka joke: Tum serious rehne ki koshish karte ho 😂"
+    ];
+
+    const random = jokes[Math.floor(Math.random() * jokes.length)];
+
+    content.innerHTML = `
+      <h2>😂 Joke Time</h2>
+      <p>${random}</p>
+      <button onclick="openModule('jokes')">Next Joke 🔁</button>
+    `;
+  }
+
+  /* 😡 GUSSA */
+  else if (module === "gussa") {
+    content.innerHTML = `
+      <h2>😡 Calm Down</h2>
+      <p>Deep breath lo…</p>
+      <p>Main hoon na 💙</p>
+      <button onclick="openModule('gussa')">Thoda aur calm 😌</button>
+    `;
+  }
+
+  /* 😴 NIGHT */
+  else if (module === "night") {
+    content.innerHTML = `
+      <h2>😴 Good Night</h2>
+      <p>Good night dodo</p>
+      <p>Jai mata di bhai</p>
+      <button onclick="showHug()">Theek</button>
+      <div id="night-result"></div>
+    `;
+
+    window.showHug = function() {
+      document.getElementById("night-result").innerHTML = `
+        <img src="https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif" width="200">
+        <p>Virtual Hug 🤗💙</p>
+      `;
+    };
+  }
+
+  /* 🎮 GAMES */
+  else if (module === "games") {
+    content.innerHTML = `
+      <h2>🎮 Game Zone</h2>
+      <button onclick="alert('Game logic yaha aayega')">Start</button>
+    `;
+  }
+
+  /* 🎡 WHEEL */
+  else if (module === "wheel") {
+    const options = ["Hug 🤗", "Kiss 😘", "Secret 🤫", "Compliment 💙"];
+    const random = options[Math.floor(Math.random() * options.length)];
+
+    content.innerHTML = `
+      <h2>🎡 Spin Result</h2>
+      <p>${random}</p>
+      <button onclick="openModule('wheel')">Spin Again 🔁</button>
+    `;
+  }
+
+  /* 💌 DIARY */
+  else if (module === "diary") {
+    diaryModule(content);
   }
 
   else {
@@ -137,46 +192,6 @@ function loadDriveFolder(folderId) {
     .catch(() => {
       gallery.innerHTML = "<p>Error loading images.</p>";
     });
-}
-
-/* ================= SAD FLOW ================= */
-
-function sadFlow(content) {
-  let step = 0;
-  const messages = [
-    "Tum theek ho na…?",
-    "Tum chup-chup se lag rahe ho… theek ho na?",
-    "Tum theek nahi ho, mujhe pata hai."
-  ];
-
-  function next() {
-    if (step < 3) {
-      content.innerHTML = `
-        <h2>😔</h2>
-        <p>${messages[step]}</p>
-        <button onclick="nextSad()">Pakka na</button>
-      `;
-      step++;
-    } else {
-      content.innerHTML = `
-        <h3>Meri kasam, batao mujhe.</h3>
-        <textarea id="sad-text"></textarea>
-        <button onclick="saveSad()">Send</button>
-      `;
-    }
-  }
-
-  window.nextSad = next;
-
-  window.saveSad = function () {
-    const text = document.getElementById("sad-text").value;
-    if (!text.trim()) return;
-    saveData("sadMessages", text);
-    alert("Saved 💙");
-    showScreen(dashboardScreen);
-  };
-
-  next();
 }
 
 /* ================= DIARY ================= */
