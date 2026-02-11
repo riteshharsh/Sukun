@@ -82,9 +82,13 @@ function openModule(module) {
     `;
   }
 
-  /* 😔 SAD */
+  /* 😔 SAD (MODULAR FIX) */
   else if (module === "sad") {
-    sadFlow(content);
+    if (typeof openSadModule === "function") {
+      openSadModule(content);
+    } else {
+      content.innerHTML = "<p>Sad module not loaded.</p>";
+    }
   }
 
   /* 😘 PHOTOS */
@@ -114,7 +118,7 @@ function openModule(module) {
     }
   }
 
-  /* 😴 NIGHT (MODULAR FIXED) */
+  /* 😴 NIGHT */
   else if (module === "night") {
     if (typeof openNightModule === "function") {
       openNightModule(content);
@@ -153,15 +157,6 @@ function openModule(module) {
   }
 
   showScreen(moduleScreen);
-}
-
-/* ================= SAD FLOW ================= */
-
-function sadFlow(content) {
-  content.innerHTML = `
-    <h2>😔</h2>
-    <p>Tum theek ho na?</p>
-  `;
 }
 
 /* ================= DIARY ================= */
