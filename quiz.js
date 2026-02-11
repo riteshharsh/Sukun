@@ -1,27 +1,61 @@
 const quizData = [
-
-/* EASY LEVEL */
+/* ===== EASY LEVEL – BLOCK 1 ===== */
 
 { q: "Varun Dhawan ki debut film kaun si thi?", a: "Student of the Year", b: "ABCD 2", correct: 0, level: "easy" },
 { q: "Badrinath Ki Dulhania me Varun ka naam kya tha?", a: "Badri", b: "Rohan", correct: 0, level: "easy" },
 { q: "Main Tera Hero kis saal release hui?", a: "2014", b: "2018", correct: 0, level: "easy" },
 { q: "ABCD 2 me Varun ne kya role kiya?", a: "Dancer", b: "Police", correct: 0, level: "easy" },
 { q: "Kalank me Varun ka character naam?", a: "Zafar", b: "Arjun", correct: 0, level: "easy" },
+{ q: "Humpty Sharma Ki Dulhania ki heroine kaun thi?", a: "Alia Bhatt", b: "Kareena Kapoor", correct: 0, level: "easy" },
+{ q: "Street Dancer 3D me Varun ke opposite kaun thi?", a: "Shraddha Kapoor", b: "Deepika Padukone", correct: 0, level: "easy" },
+{ q: "Coolie No.1 remake kis saal aayi?", a: "2020", b: "2012", correct: 0, level: "easy" },
+{ q: "October film ka genre kya tha?", a: "Romantic Drama", b: "Horror", correct: 0, level: "easy" },
+{ q: "Dishoom me Varun ka character ka naam kya tha?", a: "Junaid", b: "Raghu", correct: 0, level: "easy" },
 
-/* MEDIUM LEVEL */
+{ q: "Varun Dhawan ke father ka naam kya hai?", a: "David Dhawan", b: "Mahesh Bhatt", correct: 0, level: "easy" },
+{ q: "Student of the Year me Varun ka character?", a: "Rohan", b: "Kabir", correct: 0, level: "easy" },
+{ q: "Judwaa 2 me Varun ne kitne roles kiye?", a: "2", b: "1", correct: 0, level: "easy" },
+{ q: "Badlapur me Varun ka character naam?", a: "Raghu", b: "Aman", correct: 0, level: "easy" },
+{ q: "Varun Dhawan ka janam saal kya hai?", a: "1987", b: "1995", correct: 0, level: "easy" },
 
-{ q: "Humpty Sharma Ki Dulhania me heroine kaun thi?", a: "Alia Bhatt", b: "Katrina Kaif", correct: 0, level: "medium" },
-{ q: "Varun Dhawan ke father ka naam kya hai?", a: "David Dhawan", b: "Karan Johar", correct: 0, level: "medium" },
-{ q: "October film ka genre kya tha?", a: "Romantic Drama", b: "Action Thriller", correct: 0, level: "medium" },
-{ q: "Street Dancer 3D me Varun ke opposite kaun thi?", a: "Shraddha Kapoor", b: "Deepika Padukone", correct: 0, level: "medium" },
-{ q: "Coolie No.1 remake kis saal aayi?", a: "2020", b: "2015", correct: 0, level: "medium" },
+{ q: "JugJugg Jeeyo me Varun ka naam?", a: "Kuku", b: "Ravi", correct: 0, level: "easy" },
+{ q: "ABCD 2 kis cheez par based thi?", a: "Dance Competition", b: "Cricket", correct: 0, level: "easy" },
+{ q: "Humpty Sharma film ka director kaun tha?", a: "Shashank Khaitan", b: "Rohit Shetty", correct: 0, level: "easy" },
+{ q: "Kalank me Varun kis profession me tha?", a: "Blacksmith", b: "Doctor", correct: 0, level: "easy" },
+{ q: "Street Dancer 3D ka main theme kya tha?", a: "Dance Battle", b: "War Story", correct: 0, level: "easy" },
 
-/* HARD LEVEL */
+{ q: "Varun Dhawan ne pehli film kis banner ke under ki?", a: "Dharma Productions", b: "YRF", correct: 0, level: "easy" },
+{ q: "Main Tera Hero me Varun ka character?", a: "Seenu", b: "Rahul", correct: 0, level: "easy" },
+{ q: "Judwaa 2 original film kis actor ki thi?", a: "Salman Khan", b: "Aamir Khan", correct: 0, level: "easy" },
+{ q: "Badlapur ka genre kya tha?", a: "Thriller", b: "Comedy", correct: 0, level: "easy" },
+{ q: "Varun Dhawan ki wife ka naam kya hai?", a: "Natasha Dalal", b: "Alia Bhatt", correct: 0, level: "easy" },
 
-{ q: "Badlapur me Varun ka character naam?", a: "Raghu", b: "Rohan", correct: 0, level: "hard" },
-{ q: "Kalank kis director ne banayi?", a: "Abhishek Varman", b: "Rohit Shetty", correct: 0, level: "hard" },
-{ q: "Student of the Year me Varun ka character?", a: "Rohan", b: "Aman", correct: 0, level: "hard" },
-{ q: "Dishoom me Varun ka naam?", a: "Junaid", b: "Kabir", correct: 0, level: "hard" },
-{ q: "JugJugg Jeeyo me Varun ka naam?", a: "Kuku", b: "Raj", correct: 0, level: "hard" },
+{ q: "Coolie No.1 me heroine kaun thi?", a: "Sara Ali Khan", b: "Kriti Sanon", correct: 0, level: "easy" },
+{ q: "October film me Varun ka naam kya tha?", a: "Dan", b: "Raj", correct: 0, level: "easy" },
+{ q: "Dishoom me Varun ka role kya tha?", a: "Cop", b: "Singer", correct: 0, level: "easy" },
+{ q: "Humpty Sharma Ki Dulhania ka setting kis city me tha?", a: "Delhi", b: "Mumbai", correct: 0, level: "easy" },
+{ q: "Street Dancer 3D me Varun ka dance group ka naam?", a: "Street Team", b: "Royal Squad", correct: 0, level: "easy" },
 
-];
+{ q: "Kalank film kis era me set thi?", a: "1940s", b: "2000s", correct: 0, level: "easy" },
+{ q: "Student of the Year me competition kya tha?", a: "Trophy Contest", b: "Dance Show", correct: 0, level: "easy" },
+{ q: "Varun Dhawan ka nickname kya hai?", a: "VD", b: "VK", correct: 0, level: "easy" },
+{ q: "Badlapur me revenge kis wajah se tha?", a: "Family murder", b: "Money loss", correct: 0, level: "easy" },
+{ q: "Judwaa 2 ka genre?", a: "Comedy", b: "Horror", correct: 0, level: "easy" },
+
+{ q: "ABCD 2 me dance kis country me final hua?", a: "USA", b: "India", correct: 0, level: "easy" },
+{ q: "Main Tera Hero me heroine kaun thi?", a: "Ileana D'Cruz", b: "Kareena Kapoor", correct: 0, level: "easy" },
+{ q: "Humpty Sharma Ki Dulhania ka sequel kya tha?", a: "Badrinath Ki Dulhania", b: "Judwaa 2", correct: 0, level: "easy" },
+{ q: "Varun Dhawan ne kis film me double role kiya?", a: "Judwaa 2", b: "Badlapur", correct: 0, level: "easy" },
+{ q: "Kalank film ka music director kaun tha?", a: "Pritam", b: "AR Rahman", correct: 0, level: "easy" },
+
+{ q: "Street Dancer 3D me final battle kis theme pe thi?", a: "India vs UK", b: "Solo Dance", correct: 0, level: "easy" },
+{ q: "Varun Dhawan ne pehle assistant director kis film me kaam kiya?", a: "My Name is Khan", b: "3 Idiots", correct: 0, level: "easy" },
+{ q: "Badlapur me Varun ka character kis sheher ka tha?", a: "Pune", b: "Delhi", correct: 0, level: "easy" },
+{ q: "JugJugg Jeeyo ka main theme kya tha?", a: "Marriage Issues", b: "War Story", correct: 0, level: "easy" },
+{ q: "Coolie No.1 me Varun ka character naam?", a: "Raju", b: "Vijay", correct: 0, level: "easy" },
+
+{ q: "October film ka mood kya tha?", a: "Emotional", b: "Action", correct: 0, level: "easy" },
+{ q: "Dishoom film ka setting kis city me tha?", a: "Abu Dhabi", b: "Delhi", correct: 0, level: "easy" },
+{ q: "Varun Dhawan ki first co-star kaun thi?", a: "Alia Bhatt", b: "Deepika Padukone", correct: 0, level: "easy" },
+{ q: "ABCD 2 me Varun ka dance style?", a: "Hip Hop", b: "Classical", correct: 0, level: "easy" },
+{ q: "Judwaa 2 me villain ka naam?", a: "Alex", b: "Rohit", correct: 0, level: "easy" },
