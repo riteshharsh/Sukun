@@ -1,8 +1,9 @@
-:root {
+  :root {
   --bg1: #ffdee9;
   --bg2: #b5fffc;
   --card: #ffffff;
   --text: #222;
+  --primary: #ff6f91;
 }
 
 body.dark {
@@ -10,6 +11,7 @@ body.dark {
   --bg2: #243B55;
   --card: #1f2937;
   --text: #f3f4f6;
+  --primary: #ff8fab;
 }
 
 body {
@@ -20,17 +22,22 @@ body {
   transition: 0.4s;
 }
 
+/* ================= SCREEN ================= */
+
 .screen {
   display: none;
   min-height: 100vh;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  padding: 20px;
 }
 
 .screen.active {
   display: flex;
 }
+
+/* ================= CARD ================= */
 
 .card {
   background: var(--card);
@@ -42,23 +49,36 @@ body {
   text-align: center;
 }
 
-input {
+/* ================= INPUT ================= */
+
+input, textarea {
   width: 100%;
   padding: 10px;
   margin-top: 15px;
   border-radius: 10px;
   border: 1px solid #ccc;
+  font-family: inherit;
 }
+
+/* ================= BUTTON ================= */
 
 button {
   margin-top: 15px;
   padding: 10px 18px;
   border: none;
   border-radius: 12px;
-  background: #ff6f91;
+  background: var(--primary);
   color: white;
   cursor: pointer;
+  transition: 0.2s;
 }
+
+button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* ================= TOP BAR ================= */
 
 .top-bar {
   width: 90%;
@@ -67,6 +87,8 @@ button {
   justify-content: space-between;
   margin-bottom: 20px;
 }
+
+/* ================= EMOJI GRID ================= */
 
 .emoji-grid {
   display: grid;
@@ -81,8 +103,58 @@ button {
   border-radius: 16px;
   cursor: pointer;
   transition: 0.2s;
+  text-align: center;
 }
 
 .emoji:hover {
   transform: scale(1.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* ================= MODULE CONTENT ================= */
+
+#module-content {
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* ================= PHOTO MODULE ================= */
+
+.photo-buttons {
+  margin-top: 20px;
+}
+
+.photo-buttons button {
+  font-size: 22px;
+  margin: 8px;
+  padding: 10px 18px;
+  border-radius: 12px;
+}
+
+#drive-gallery {
+  margin-top: 20px;
+}
+
+.drive-img {
+  width: 120px;
+  margin: 10px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.drive-img:hover {
+  transform: scale(1.1);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 500px) {
+  .emoji-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .drive-img {
+    width: 100px;
+  }
 }
