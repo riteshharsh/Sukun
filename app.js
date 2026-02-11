@@ -217,9 +217,12 @@ function spinWheelGame() {
     `;
   };
 }
-/* 3️⃣ Movie Quiz Engine */
 
-let quizQuestions = quizQuestions || [
+/* ===========================
+   🎬 MOVIE QUIZ
+=========================== */
+
+let quizQuestions = [
   { q: "Varun Dhawan debut film?", a: "Student of the Year", b: "ABCD 2", correct: 0 },
   { q: "SRK known as?", a: "King Khan", b: "Sultan Khan", correct: 0 },
   { q: "Badrinath Ki Dulhania actor?", a: "Varun", b: "Ranveer", correct: 0 }
@@ -234,7 +237,6 @@ function startQuiz() {
   let timer;
   let timeLeft = 15;
 
-  // shuffle copy
   let shuffled = [...quizQuestions];
   shuffled.sort(() => Math.random() - 0.5);
 
