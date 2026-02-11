@@ -297,14 +297,24 @@ function startQuiz() {
   let round = 0;
 
   function nextQuestion() {
-    if (round >= 5) {
-      content.innerHTML = `
-        <h3>Quiz Finished!</h3>
-        <p>Your Score: ${score}/5</p>
-        <p>${score >= 3 ? "You Won 🎉" : "Try Again 💙"}</p>
-      `;
-      return;
-    }
+   if (round >= 5) {
+  content.innerHTML = `
+    <h3>Quiz Finished!</h3>
+    <p>Your Score: ${score}/5</p>
+    <p>
+    ${score === 5 ? "Perfect Fan 💙🔥" :
+      score >= 3 ? "You Won 🎉" :
+      "Thoda aur dhyaan do 😉"}
+    </p>
+    <button id="restart-quiz">Tap Again 🔁</button>
+  `;
+
+  document.getElementById("restart-quiz").addEventListener("click", () => {
+    startQuiz();
+  });
+
+  return;
+}
 
     const q = quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
     round++;
