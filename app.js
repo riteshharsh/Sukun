@@ -253,16 +253,33 @@ function focusGame() {
 /* 2️⃣ Truth & Dare */
 function truthDareGame() {
   const truths = [
-    "Tumhara sabse secret crush kaun tha?",
-    "Kya tum jealous hote ho kabhi?",
-    "Kab last time roye the?"
+    "Tumne kabhi mujhe miss kiya?",
+    "Sabse romantic moment kya tha?",
+    "Tum jealous hote ho kabhi?",
+    "Mera kaunsa habit cute lagta hai?",
+    "Secret crush kab tha last?",
+    "Tumhara biggest fear?",
+    "Agar ek wish mile toh kya maangoge?",
+    "Mujhe 3 words me describe karo",
+    "Kab last time roye the?",
+    "Mere bina reh sakte ho?"
   ];
 
   const dares = [
-    "Send a cute selfie right now 😜",
+    "Abhi ek cute selfie bhejo 😜",
     "5 minute sirf mujhe yaad karo 💙",
-    "Apni favorite romantic line bolo 😏"
+    "Voice note me 'I miss you' bolo 😏",
+    "Apni favorite romantic line bolo",
+    "Ek honest compliment do",
+    "Mujhe ek funny nickname do",
+    "Mujhe good night message likho",
+    "Dil se ek line bolo",
+    "Ek emoji me mood batao",
+    "Abhi hug emoji bhejo 🤗"
   ];
+
+  let usedTruth = [];
+  let usedDare = [];
 
   const content = document.getElementById("module-content");
 
@@ -273,14 +290,30 @@ function truthDareGame() {
     <div id="td-result"></div>
   `;
 
+  function getRandom(arr, used) {
+    if (used.length === arr.length) used.length = 0;
+    let index;
+    do {
+      index = Math.floor(Math.random() * arr.length);
+    } while (used.includes(index));
+    used.push(index);
+    return arr[index];
+  }
+
   document.getElementById("truth-btn").addEventListener("click", () => {
-    const q = truths[Math.floor(Math.random() * truths.length)];
-    document.getElementById("td-result").innerHTML = `<p>${q}</p>`;
+    const q = getRandom(truths, usedTruth);
+    document.getElementById("td-result").innerHTML = `
+      <p>${q}</p>
+      <button onclick="truthDareGame()">Again 🔁</button>
+    `;
   });
 
   document.getElementById("dare-btn").addEventListener("click", () => {
-    const q = dares[Math.floor(Math.random() * dares.length)];
-    document.getElementById("td-result").innerHTML = `<p>${q}</p>`;
+    const q = getRandom(dares, usedDare);
+    document.getElementById("td-result").innerHTML = `
+      <p>${q}</p>
+      <button onclick="truthDareGame()">Again 🔁</button>
+    `;
   });
 }
 
