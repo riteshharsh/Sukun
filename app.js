@@ -169,3 +169,162 @@ function saveData(key, text) {
   });
   localStorage.setItem(key, JSON.stringify(entries));
                                                          }
+/* ===========================
+   🎮 GAMES MODULE
+=========================== */
+
+function openModule(module) {
+  const content = document.getElementById("module-content");
+
+  if (module === "games") {
+    content.innerHTML = `
+      <h2>🎮 Game Zone</h2>
+      <button id="focus-game">Focus Game</button>
+      <button id="truth-dare-game">Truth & Dare</button>
+      <button id="quiz-game">Movie Quiz</button>
+    `;
+
+    document.getElementById("focus-game").addEventListener("click", focusGame);
+    document.getElementById("truth-dare-game").addEventListener("click", truthDareGame);
+    document.getElementById("quiz-game").addEventListener("click", startQuiz);
+  }
+
+  else if (module === "daily") {
+    content.innerHTML = `
+      <h2>😊 Daily Sukoon</h2>
+      <p>Aaj halka raho.</p>
+      <p>Sab dheere hota hai.</p>
+      <p>Tum strong ho 💙</p>
+    `;
+  }
+
+  else if (module === "sad") {
+    sadFlow(content);
+  }
+
+  else if (module === "diary") {
+    diaryModule(content);
+  }
+
+  else {
+    content.innerHTML = `<h2>${module.toUpperCase()}</h2><p>Coming Soon...</p>`;
+  }
+
+  showScreen(moduleScreen);
+}
+
+/* 1️⃣ Focus Game */
+function focusGame() {
+  const content = document.getElementById("module-content");
+  let score = 0;
+  let timeLeft = 30;
+
+  content.innerHTML = `
+    <h3>❤️ Tap Fast for 30 Seconds!</h3>
+    <h4 id="timer">Time: 30</h4>
+    <button id="tap-btn">❤️ TAP</button>
+    <h4 id="score">Score: 0</h4>
+  `;
+
+  const timerEl = document.getElementById("timer");
+  const scoreEl = document.getElementById("score");
+  const tapBtn = document.getElementById("tap-btn");
+
+  tapBtn.addEventListener("click", () => {
+    score++;
+    scoreEl.textContent = "Score: " + score;
+  });
+
+  const timer = setInterval(() => {
+    timeLeft--;
+    timerEl.textContent = "Time: " + timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(timer);
+      content.innerHTML = `
+        <h3>Time Over!</h3>
+        <p>Your Score: ${score}</p>
+        <p>${score > 50 ? "Lagta hai tum serious ho 😄" : "Thoda aur focus karo 😉"}</p>
+      `;
+    }
+  }, 1000);
+}
+
+/* 2️⃣ Truth & Dare */
+function truthDareGame() {
+  const truths = [
+    "Tumhara sabse secret crush kaun tha?",
+    "Kya tum jealous hote ho kabhi?",
+    "Kab last time roye the?"
+  ];
+
+  const dares = [
+    "Send a cute selfie right now 😜",
+    "5 minute sirf mujhe yaad karo 💙",
+    "Apni favorite romantic line bolo 😏"
+  ];
+
+  const content = document.getElementById("module-content");
+
+  content.innerHTML = `
+    <h3>Truth or Dare?</h3>
+    <button id="truth-btn">Truth</button>
+    <button id="dare-btn">Dare</button>
+    <div id="td-result"></div>
+  `;
+
+  document.getElementById("truth-btn").addEventListener("click", () => {
+    const q = truths[Math.floor(Math.random() * truths.length)];
+    document.getElementById("td-result").innerHTML = `<p>${q}</p>`;
+  });
+
+  document.getElementById("dare-btn").addEventListener("click", () => {
+    const q = dares[Math.floor(Math.random() * dares.length)];
+    document.getElementById("td-result").innerHTML = `<p>${q}</p>`;
+  });
+}
+
+/* 3️⃣ Movie Quiz Engine */
+let quizQuestions = [
+  { q: "Varun Dhawan debut film?", a: "Student of the Year", b: "ABCD 2", correct: 0 },
+  { q: "SRK known as?", a: "King Khan", b: "Sultan Khan", correct: 0 },
+  { q: "Badrinath Ki Dulhania actor?", a: "Varun", b: "Ranveer", correct: 0 }
+];
+
+function startQuiz() {
+  const content = document.getElementById("module-content");
+  let score = 0;
+  let round = 0;
+
+  function nextQuestion() {
+    if (round >= 5) {
+      content.innerHTML = `
+        <h3>Quiz Finished!</h3>
+        <p>Your Score: ${score}/5</p>
+        <p>${score >= 3 ? "You Won 🎉" : "Try Again 💙"}</p>
+      `;
+      return;
+    }
+
+    const q = quizQuestions[Math.floor(Math.random() * quizQuestions.length)];
+    round++;
+
+    content.innerHTML = `
+      <h4>${q.q}</h4>
+      <button id="opt1">${q.a}</button>
+      <button id="opt2">${q.b}</button>
+    `;
+
+    document.getElementById("opt1").addEventListener("click", () => {
+      if (q.correct === 0) score++;
+      nextQuestion();
+    });
+
+    document.getElementById("opt2").addEventListener("click", () => {
+      if (q.correct === 1) score++;
+      nextQuestion();
+    });
+  }
+
+  nextQuestion();
+}
