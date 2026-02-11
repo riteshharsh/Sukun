@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SUKUN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- LOGIN SCREEN -->
+  <section id="login-screen" class="screen active">
+    <div class="card">
+      <h2>SUKUN</h2>
+      <input type="password" id="passcode-input" placeholder="Enter Passcode">
+      <button id="login-btn">Enter</button>
+    </div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard-screen" class="screen">
+    <div class="top-bar">
+      <span id="welcome-text"></span>
+      <button id="dark-toggle">🌙</button>
+    </div>
+
+    <div class="emoji-grid">
+      <div class="emoji" data-module="daily">😊</div>
+      <div class="emoji" data-module="sad">😔</div>
+      <div class="emoji" data-module="photos">😘</div>
+      <div class="emoji" data-module="jokes">😂</div>
+      <div class="emoji" data-module="gussa">😡</div>
+      <div class="emoji" data-module="wheel">🤗</div>
+      <div class="emoji" data-module="night">😴</div>
+      <div class="emoji" data-module="games">🎮</div>
+      <div class="emoji" data-module="diary">💌</div>
+    </div>
+  </section>
+
+  <!-- MODULE SCREEN -->
+  <section id="module-screen" class="screen">
+    <div class="top-bar">
+      <button id="back-btn">⬅ Back</button>
+      <button id="dark-toggle-2">🌙</button>
+    </div>
+    <div id="module-content"></div>
+  </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
