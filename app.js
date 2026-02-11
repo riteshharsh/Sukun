@@ -1,13 +1,3 @@
-/* ===========================
-   🔐 CONFIG
-=========================== */
-
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz8IvH2Zb_tSalN7ov5xO65JWdX2_FwuVevWMuKJrjFyCVCrPO9hhVD1bJBsAAAmUIX/exec";
-
-/* ===========================
-   📦 ELEMENTS
-=========================== */
-
 const loginScreen = document.getElementById("login-screen");
 const dashboardScreen = document.getElementById("dashboard-screen");
 const moduleScreen = document.getElementById("module-screen");
@@ -22,9 +12,7 @@ const backBtn = document.getElementById("back-btn");
 
 let currentRole = null;
 
-/* ===========================
-   🔑 LOGIN
-=========================== */
+/* ================= LOGIN ================= */
 
 loginBtn.addEventListener("click", () => {
   const code = passInput.value.trim();
@@ -41,22 +29,16 @@ loginBtn.addEventListener("click", () => {
   welcomeText.textContent = `Welcome ${currentRole}`;
 });
 
-/* ===========================
-   SCREEN CONTROL
-=========================== */
+/* ================= SCREEN ================= */
 
 function showScreen(screen) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   screen.classList.add("active");
 }
 
-backBtn.addEventListener("click", () => {
-  showScreen(dashboardScreen);
-});
+backBtn.addEventListener("click", () => showScreen(dashboardScreen));
 
-/* ===========================
-   🌙 DARK MODE
-=========================== */
+/* ================= DARK MODE ================= */
 
 function toggleDark() {
   document.body.classList.toggle("dark");
@@ -70,9 +52,7 @@ if (localStorage.getItem("darkMode") === "true") {
   document.body.classList.add("dark");
 }
 
-/* ===========================
-   🎯 EMOJI HANDLER
-=========================== */
+/* ================= EMOJI CLICK ================= */
 
 document.querySelectorAll(".emoji").forEach(emoji => {
   emoji.addEventListener("click", () => {
@@ -80,13 +60,12 @@ document.querySelectorAll(".emoji").forEach(emoji => {
   });
 });
 
-/* ===========================
-   MODULE SWITCHER
-=========================== */
+/* ================= MODULE SWITCH ================= */
 
 function openModule(module) {
   const content = document.getElementById("module-content");
 
+  /* 😊 DAILY */
   if (module === "daily") {
     content.innerHTML = `
       <h2>😊 Daily Sukoon</h2>
@@ -96,25 +75,36 @@ function openModule(module) {
     `;
   }
 
+  /* 😔 SAD */
   else if (module === "sad") {
     sadFlow(content);
   }
 
+  /* 💌 DIARY */
   else if (module === "diary") {
     diaryModule(content);
   }
 
+  /* 🎮 GAMES */
   else if (module === "games") {
     content.innerHTML = `
       <h2>🎮 Game Zone</h2>
       <button onclick="focusGame()">Focus Game</button>
       <button onclick="truthDareGame()">Truth & Dare</button>
       <button onclick="startQuiz()">Movie Quiz</button>
+      <button onclick="spinWheelGame()">Spin Wheel</button>
     `;
   }
 
-  else if (module === "wheel") {
-    spinWheelGame();
+  /* 😘 DRIVE GALLERY */
+  else if (module === "kiss") {
+    content.innerHTML = `
+      <h2>😘 Choose Folder</h2>
+      <button onclick="loadDriveFolder('1B4KxNZh0ziq4BgUIQKflcht7Yaz4IWao')">😚</button>
+      <button onclick="loadDriveFolder('1J9WT6DMdGUdO1oDVKeULHOCAnBC1odw0')">😙</button>
+      <button onclick="loadDriveFolder('152KBJtdTNdmhqZ_wbQsGn6HyBkE6DpOf')">😗</button>
+      <div id="drive-gallery"></div>
+    `;
   }
 
   else {
@@ -124,26 +114,49 @@ function openModule(module) {
   showScreen(moduleScreen);
 }
 
-/* ===========================
-   😔 SAD FLOW
-=========================== */
+/* ================= DRIVE LOADER ================= */
+
+function loadDriveFolder(folderId) {
+  const gallery = document.getElementById("drive-gallery");
+  gallery.innerHTML = "Loading...";
+
+  fetch("https://script.google.com/macros/s/AKfycbz8IvH2Zb_tSalN7ov5xO65JWdX2_FwuVevWMuKJrjFyCVCrPO9hhVD1bJBsAAAmUIX/exec?folder=" + folderId)
+    .then(res => res.json())
+    .then(data => {
+
+      if (!data.files || data.files.length === 0) {
+        gallery.innerHTML = "<p>No images found.</p>";
+        return;
+      }
+
+      gallery.innerHTML = data.files.map(file =>
+        `<img src="${file.url}" style="width:120px;margin:10px;border-radius:12px;">`
+      ).join("");
+
+    })
+    .catch(() => {
+      gallery.innerHTML = "<p>Error loading images.</p>";
+    });
+}
+
+/* ================= SAD FLOW ================= */
 
 function sadFlow(content) {
   let step = 0;
+  const messages = [
+    "Tum theek ho na…?",
+    "Tum chup-chup se lag rahe ho… theek ho na?",
+    "Tum theek nahi ho, mujhe pata hai."
+  ];
 
-  function nextStep() {
-    const messages = [
-      "Tum theek ho na…?",
-      "Tum chup-chup se lag rahe ho… theek ho na?",
-      "Tum theek nahi ho, mujhe pata hai."
-    ];
-
+  function next() {
     if (step < 3) {
       content.innerHTML = `
         <h2>😔</h2>
         <p>${messages[step]}</p>
-        <button onclick="nextStep()">Pakka na</button>
+        <button onclick="nextSad()">Pakka na</button>
       `;
+      step++;
     } else {
       content.innerHTML = `
         <h3>Meri kasam, batao mujhe.</h3>
@@ -153,7 +166,7 @@ function sadFlow(content) {
     }
   }
 
-  window.nextStep = nextStep;
+  window.nextSad = next;
 
   window.saveSad = function () {
     const text = document.getElementById("sad-text").value;
@@ -163,12 +176,10 @@ function sadFlow(content) {
     showScreen(dashboardScreen);
   };
 
-  nextStep();
+  next();
 }
 
-/* ===========================
-   💌 DIARY
-=========================== */
+/* ================= DIARY ================= */
 
 function diaryModule(content) {
   content.innerHTML = `
@@ -177,7 +188,6 @@ function diaryModule(content) {
     <button onclick="saveDiary()">Save</button>
     <div id="diary-history"></div>
   `;
-
   loadDiary();
 }
 
@@ -191,160 +201,11 @@ function saveDiary() {
 function loadDiary() {
   const historyDiv = document.getElementById("diary-history");
   const entries = JSON.parse(localStorage.getItem("diaryEntries") || "[]");
-
-  historyDiv.innerHTML = entries
-    .map(entry => `<p>${entry.time} - ${entry.text}</p>`)
-    .join("");
+  historyDiv.innerHTML = entries.map(e => `<p>${e.time} - ${e.text}</p>`).join("");
 }
-
-/* ===========================
-   💾 SAVE + GOOGLE BACKUP
-=========================== */
 
 function saveData(key, text) {
-
-  const entry = {
-    type: key,
-    text: text,
-    time: new Date().toLocaleString()
-  };
-
-  // Local save
   const entries = JSON.parse(localStorage.getItem(key) || "[]");
-  entries.push(entry);
+  entries.push({ text, time: new Date().toLocaleString() });
   localStorage.setItem(key, JSON.stringify(entries));
-
-  // Google backup
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    body: JSON.stringify(entry),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
-  .then(res => res.text())
-  .then(data => console.log("Backup success"))
-  .catch(err => console.log("Backup failed (local saved)"));
-}
-
-/* ===========================
-   🎡 SPIN WHEEL
-=========================== */
-
-function spinWheelGame() {
-  const content = document.getElementById("module-content");
-
-  const options = [
-    "Hug 🤗",
-    "Kiss 😘",
-    "Secret Share 🤫",
-    "Compliment 💙",
-    "Truth Question 😏",
-    "Romantic Line 💌"
-  ];
-
-  content.innerHTML = `
-    <h3>Spin The Wheel 🎡</h3>
-    <div style="font-size:80px;margin:20px;">🎡</div>
-    <button onclick="spinNow()">Spin</button>
-    <div id="wheel-result"></div>
-  `;
-
-  window.spinNow = function () {
-    const randomIndex = Math.floor(Math.random() * options.length);
-    const selected = options[randomIndex];
-
-    document.getElementById("wheel-result").innerHTML = `
-      <h4>Result: ${selected}</h4>
-      <button onclick="spinWheelGame()">Spin Again 🔁</button>
-    `;
-  };
-}
-
-/* ===========================
-   🎬 MOVIE QUIZ
-=========================== */
-
-let quizQuestions = [
-  { q: "Varun Dhawan debut film?", a: "Student of the Year", b: "ABCD 2", correct: 0 },
-  { q: "SRK known as?", a: "King Khan", b: "Sultan Khan", correct: 0 },
-  { q: "Badrinath Ki Dulhania actor?", a: "Varun", b: "Ranveer", correct: 0 }
-];
-
-function startQuiz() {
-
-  const content = document.getElementById("module-content");
-
-  let score = 0;
-  let round = 0;
-  let timer;
-  let timeLeft = 15;
-
-  let shuffled = [...quizQuestions];
-  shuffled.sort(() => Math.random() - 0.5);
-
-  function nextQuestion() {
-
-    clearInterval(timer);
-    timeLeft = 15;
-
-    if (round >= 5) {
-      content.innerHTML = `
-        <h3>Quiz Finished!</h3>
-        <h2 id="final-score">Score: 0</h2>
-        <button onclick="startQuiz()">Tap Again 🔁</button>
-      `;
-
-      let displayScore = 0;
-      const scoreEl = document.getElementById("final-score");
-
-      const anim = setInterval(() => {
-        if (displayScore >= score) clearInterval(anim);
-        else {
-          displayScore++;
-          scoreEl.textContent = "Score: " + displayScore + "/5";
-        }
-      }, 200);
-
-      return;
-    }
-
-    const q = shuffled[round];
-    round++;
-
-    content.innerHTML = `
-      <div style="height:6px;background:#ddd;margin-bottom:10px;">
-        <div style="height:6px;width:${round*20}%;background:#4caf50;"></div>
-      </div>
-      <h4>Time Left: <span id="timer">${timeLeft}</span>s</h4>
-      <h4>Q${round}: ${q.q}</h4>
-      <button id="opt1">${q.a}</button>
-      <button id="opt2">${q.b}</button>
-    `;
-
-    const timerEl = document.getElementById("timer");
-
-    timer = setInterval(() => {
-      timeLeft--;
-      timerEl.textContent = timeLeft;
-      if (timeLeft <= 0) {
-        clearInterval(timer);
-        nextQuestion();
-      }
-    }, 1000);
-
-    document.getElementById("opt1").onclick = function () {
-      clearInterval(timer);
-      if (q.correct === 0) score++;
-      nextQuestion();
-    };
-
-    document.getElementById("opt2").onclick = function () {
-      clearInterval(timer);
-      if (q.correct === 1) score++;
-      nextQuestion();
-    };
-  }
-
-  nextQuestion();
 }
