@@ -217,3 +217,93 @@ function spinWheelGame() {
     `;
   };
 }
+/* 3️⃣ Movie Quiz Engine */
+
+let quizQuestions = quizQuestions || [
+  { q: "Varun Dhawan debut film?", a: "Student of the Year", b: "ABCD 2", correct: 0 },
+  { q: "SRK known as?", a: "King Khan", b: "Sultan Khan", correct: 0 },
+  { q: "Badrinath Ki Dulhania actor?", a: "Varun", b: "Ranveer", correct: 0 }
+];
+
+function startQuiz() {
+
+  const content = document.getElementById("module-content");
+
+  let score = 0;
+  let round = 0;
+  let timer;
+  let timeLeft = 15;
+
+  // shuffle copy
+  let shuffled = [...quizQuestions];
+  shuffled.sort(() => Math.random() - 0.5);
+
+  function nextQuestion() {
+
+    clearInterval(timer);
+    timeLeft = 15;
+
+    if (round >= 5) {
+      content.innerHTML = `
+        <h3>Quiz Finished!</h3>
+        <h2 id="final-score">Score: 0</h2>
+        <button onclick="startQuiz()">Tap Again 🔁</button>
+      `;
+
+      let displayScore = 0;
+      const scoreEl = document.getElementById("final-score");
+
+      const anim = setInterval(() => {
+        if (displayScore >= score) {
+          clearInterval(anim);
+        } else {
+          displayScore++;
+          scoreEl.textContent = "Score: " + displayScore + "/5";
+        }
+      }, 200);
+
+      return;
+    }
+
+    const q = shuffled[round];
+    round++;
+
+    content.innerHTML = `
+      <div style="height:6px;background:#ddd;margin-bottom:10px;">
+        <div style="height:6px;width:${round*20}%;background:#4caf50;"></div>
+      </div>
+
+      <h4>Time Left: <span id="timer">${timeLeft}</span>s</h4>
+      <h4>Q${round}: ${q.q}</h4>
+
+      <button id="opt1">${q.a}</button>
+      <button id="opt2">${q.b}</button>
+    `;
+
+    const timerEl = document.getElementById("timer");
+
+    timer = setInterval(() => {
+      timeLeft--;
+      timerEl.textContent = timeLeft;
+
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        nextQuestion();
+      }
+    }, 1000);
+
+    document.getElementById("opt1").onclick = function () {
+      clearInterval(timer);
+      if (q.correct === 0) score++;
+      nextQuestion();
+    };
+
+    document.getElementById("opt2").onclick = function () {
+      clearInterval(timer);
+      if (q.correct === 1) score++;
+      nextQuestion();
+    };
+  }
+
+  nextQuestion();
+}
