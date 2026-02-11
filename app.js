@@ -1,3 +1,13 @@
+/* ===========================
+   🔐 CONFIG
+=========================== */
+
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz8IvH2Zb_tSalN7ov5xO65JWdX2_FwuVevWMuKJrjFyCVCrPO9hhVD1bJBsAAAmUIX/exec";
+
+/* ===========================
+   📦 ELEMENTS
+=========================== */
+
 const loginScreen = document.getElementById("login-screen");
 const dashboardScreen = document.getElementById("dashboard-screen");
 const moduleScreen = document.getElementById("module-screen");
@@ -12,7 +22,10 @@ const backBtn = document.getElementById("back-btn");
 
 let currentRole = null;
 
-/* LOGIN */
+/* ===========================
+   🔑 LOGIN
+=========================== */
+
 loginBtn.addEventListener("click", () => {
   const code = passInput.value.trim();
 
@@ -28,7 +41,10 @@ loginBtn.addEventListener("click", () => {
   welcomeText.textContent = `Welcome ${currentRole}`;
 });
 
-/* SCREEN CONTROL */
+/* ===========================
+   SCREEN CONTROL
+=========================== */
+
 function showScreen(screen) {
   document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
   screen.classList.add("active");
@@ -38,7 +54,10 @@ backBtn.addEventListener("click", () => {
   showScreen(dashboardScreen);
 });
 
-/* DARK MODE */
+/* ===========================
+   🌙 DARK MODE
+=========================== */
+
 function toggleDark() {
   document.body.classList.toggle("dark");
   localStorage.setItem("darkMode", document.body.classList.contains("dark"));
@@ -51,7 +70,10 @@ if (localStorage.getItem("darkMode") === "true") {
   document.body.classList.add("dark");
 }
 
-/* EMOJI CLICK HANDLER */
+/* ===========================
+   🎯 EMOJI HANDLER
+=========================== */
+
 document.querySelectorAll(".emoji").forEach(emoji => {
   emoji.addEventListener("click", () => {
     openModule(emoji.dataset.module);
@@ -175,13 +197,34 @@ function loadDiary() {
     .join("");
 }
 
+/* ===========================
+   💾 SAVE + GOOGLE BACKUP
+=========================== */
+
 function saveData(key, text) {
-  const entries = JSON.parse(localStorage.getItem(key) || "[]");
-  entries.push({
+
+  const entry = {
+    type: key,
     text: text,
     time: new Date().toLocaleString()
-  });
+  };
+
+  // Local save
+  const entries = JSON.parse(localStorage.getItem(key) || "[]");
+  entries.push(entry);
   localStorage.setItem(key, JSON.stringify(entries));
+
+  // Google backup
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify(entry),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+  .then(res => res.text())
+  .then(data => console.log("Backup success"))
+  .catch(err => console.log("Backup failed (local saved)"));
 }
 
 /* ===========================
@@ -256,9 +299,8 @@ function startQuiz() {
       const scoreEl = document.getElementById("final-score");
 
       const anim = setInterval(() => {
-        if (displayScore >= score) {
-          clearInterval(anim);
-        } else {
+        if (displayScore >= score) clearInterval(anim);
+        else {
           displayScore++;
           scoreEl.textContent = "Score: " + displayScore + "/5";
         }
@@ -274,10 +316,8 @@ function startQuiz() {
       <div style="height:6px;background:#ddd;margin-bottom:10px;">
         <div style="height:6px;width:${round*20}%;background:#4caf50;"></div>
       </div>
-
       <h4>Time Left: <span id="timer">${timeLeft}</span>s</h4>
       <h4>Q${round}: ${q.q}</h4>
-
       <button id="opt1">${q.a}</button>
       <button id="opt2">${q.b}</button>
     `;
@@ -287,7 +327,6 @@ function startQuiz() {
     timer = setInterval(() => {
       timeLeft--;
       timerEl.textContent = timeLeft;
-
       if (timeLeft <= 0) {
         clearInterval(timer);
         nextQuestion();
