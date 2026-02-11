@@ -80,27 +80,22 @@ function openModule(module) {
     sadFlow(content);
   }
 
-  /* 😘 PHOTOS (Now from photos.js) */
+  /* 😘 PHOTOS */
   else if (module === "photos") {
-    openPhotosModule(content);   // 👈 Modular call
+    if (typeof openPhotosModule === "function") {
+      openPhotosModule(content);
+    } else {
+      content.innerHTML = "<p>Photos module not loaded.</p>";
+    }
   }
 
-  /* 😂 JOKES */
+  /* 😂 PROFESSIONAL JOKES ENGINE */
   else if (module === "jokes") {
-    const jokes = [
-      "Tum itne cute ho ki Google bhi search kare 😜",
-      "Tumhari smile WiFi jaisi hai 😆",
-      "Tum haste ho toh duniya set lagti hai 😁",
-      "Aaj ka joke: Tum serious rehne ki koshish karte ho 😂"
-    ];
-
-    const random = jokes[Math.floor(Math.random() * jokes.length)];
-
-    content.innerHTML = `
-      <h2>😂 Joke Time</h2>
-      <p>${random}</p>
-      <button onclick="openModule('jokes')">Next Joke 🔁</button>
-    `;
+    if (typeof startJokesEngine === "function") {
+      startJokesEngine();
+    } else {
+      content.innerHTML = "<p>Jokes engine not loaded.</p>";
+    }
   }
 
   /* 😡 GUSSA */
@@ -123,7 +118,7 @@ function openModule(module) {
       <div id="night-result"></div>
     `;
 
-    window.showHug = function() {
+    window.showHug = function () {
       document.getElementById("night-result").innerHTML = `
         <img src="https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif" width="200">
         <p>Virtual Hug 🤗💙</p>
