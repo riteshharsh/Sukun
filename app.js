@@ -96,16 +96,16 @@ function openModule(module) {
     }
   }
 
-  /* 😂 JOKES ENGINE */
+  /* 😂 JOKES */
   else if (module === "jokes") {
     if (typeof startJokesEngine === "function") {
-      startJokesEngine();
+      startJokesEngine(content);
     } else {
       content.innerHTML = "<p>Jokes engine not loaded.</p>";
     }
   }
 
-  /* 😡 GUSSA (MODULAR) */
+  /* 😡 GUSSA */
   else if (module === "gussa") {
     if (typeof openGussaModule === "function") {
       openGussaModule(content);
@@ -114,22 +114,13 @@ function openModule(module) {
     }
   }
 
-  /* 😴 NIGHT */
+  /* 😴 NIGHT (MODULAR FIXED) */
   else if (module === "night") {
-    content.innerHTML = `
-      <h2>😴 Good Night</h2>
-      <p>Good night dodo</p>
-      <p>Jai mata di bhai</p>
-      <button onclick="showHug()">Theek</button>
-      <div id="night-result"></div>
-    `;
-
-    window.showHug = function () {
-      document.getElementById("night-result").innerHTML = `
-        <img src="https://media.giphy.com/media/l2QDM9Jnim1YVILXa/giphy.gif" width="200">
-        <p>Virtual Hug 🤗💙</p>
-      `;
-    };
+    if (typeof openNightModule === "function") {
+      openNightModule(content);
+    } else {
+      content.innerHTML = "<p>Night module not loaded.</p>";
+    }
   }
 
   /* 🎮 GAMES */
