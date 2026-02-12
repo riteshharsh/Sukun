@@ -82,7 +82,7 @@ function openModule(module) {
     `;
   }
 
-  /* 😔 SAD (MODULAR FIX) */
+  /* 😔 SAD */
   else if (module === "sad") {
     if (typeof openSadModule === "function") {
       openSadModule(content);
@@ -131,19 +131,14 @@ function openModule(module) {
   else if (module === "games") {
     content.innerHTML = `
       <h2>🎮 Game Zone</h2>
-      <button onclick="alert('Game logic yaha aayega')">Start</button>
-    `;
-  }
 
-  /* 🎡 WHEEL */
-  else if (module === "wheel") {
-    const options = ["Hug 🤗", "Kiss 😘", "Secret 🤫", "Compliment 💙"];
-    const random = options[Math.floor(Math.random() * options.length)];
+      <button onclick="startFocusGame(document.getElementById('module-content'))">
+        Focus Game ❤️
+      </button>
 
-    content.innerHTML = `
-      <h2>🎡 Spin Result</h2>
-      <p>${random}</p>
-      <button onclick="openModule('wheel')">Spin Again 🔁</button>
+      <button onclick="startTruthDare(document.getElementById('module-content'))">
+        Truth & Dare 🎲
+      </button>
     `;
   }
 
