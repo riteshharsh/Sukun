@@ -124,23 +124,32 @@ function openModule(module) {
     }
   }
 
-  /* 🎮 GAMES */
+  /* 🎮 GAMES (FIXED) */
   else if (module === "games") {
     content.innerHTML = `
       <h2>🎮 Game Zone</h2>
 
-      <button onclick="startQuiz(document.getElementById('module-content'))">
-        Movie Quiz 🎯
+      <button onclick="startQuiz('easy')">
+        Easy Quiz 🎯
       </button>
 
-      <button onclick="startFocusGame(document.getElementById('module-content'))">
-        Focus Game ❤️
+      <button onclick="startQuiz('medium')">
+        Medium Quiz 🎯
       </button>
 
-      <button onclick="startTruthDare(document.getElementById('module-content'))">
-        Truth & Dare 🎲
+      <button onclick="startQuiz('hard')">
+        Hard Quiz 🎯
       </button>
     `;
+  }
+
+  /* 🎡 WHEEL */
+  else if (module === "wheel") {
+    if (typeof openWheelModule === "function") {
+      openWheelModule(content);
+    } else {
+      content.innerHTML = "<p>Wheel module not loaded.</p>";
+    }
   }
 
   /* 💌 DIARY */
@@ -160,7 +169,8 @@ function openModule(module) {
 function diaryModule(content) {
   content.innerHTML = `
     <h2>💌 Diary</h2>
-    <textarea id="diary-text"></textarea>
+    <textarea id="diary-text" placeholder="Write something..."></textarea>
+    <br><br>
     <button onclick="saveDiary()">Save</button>
     <div id="diary-history"></div>
   `;
@@ -171,6 +181,7 @@ function saveDiary() {
   const text = document.getElementById("diary-text").value;
   if (!text.trim()) return;
   saveData("diaryEntries", text);
+  document.getElementById("diary-text").value = "";
   loadDiary();
 }
 
@@ -186,4 +197,4 @@ function saveData(key, text) {
   const entries = JSON.parse(localStorage.getItem(key) || "[]");
   entries.push({ text, time: new Date().toLocaleString() });
   localStorage.setItem(key, JSON.stringify(entries));
-}
+           }
