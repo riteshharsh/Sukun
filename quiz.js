@@ -251,19 +251,26 @@ const quizData = [
 let currentQuestion = 0;
 let score = 0;
 let shuffledQuestions = [];
+let timerInterval = null;
+let timeLeft = 15;
 
-// shuffle function
+/***********************
+      SHUFFLE
+************************/
+
 function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-// start quiz
+/***********************
+      START QUIZ
+************************/
+
 function startQuiz(level = "easy") {
 
   const container = document.getElementById("module-content");
   if (!container) return;
 
-  // filter by level
   shuffledQuestions = shuffleArray(
     quizData.filter(q => q.level === level)
   );
@@ -274,7 +281,10 @@ function startQuiz(level = "easy") {
   showQuestion();
 }
 
-// show question
+/***********************
+      SHOW QUESTION
+************************/
+
 function showQuestion() {
 
   const container = document.getElementById("module-content");
@@ -285,9 +295,13 @@ function showQuestion() {
     return;
   }
 
+  timeLeft = 15;
+  startTimer();
+
   container.innerHTML = `
     <div class="quiz-box">
       <h3>Question ${currentQuestion + 1} / ${shuffledQuestions.length}</h3>
+      <h4>⏳ Time Left: <span id="timer">${timeLeft}</span>s</h4>
       <p>${question.q}</p>
       <button onclick="selectAnswer(0)">${question.a}</button>
       <button onclick="selectAnswer(1)">${question.b}</button>
@@ -295,36 +309,82 @@ function showQuestion() {
   `;
 }
 
-// select answer
+/***********************
+      TIMER
+************************/
+
+function startTimer() {
+
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(() => {
+
+    timeLeft--;
+    const timerElement = document.getElementById("timer");
+    if (timerElement) timerElement.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      currentQuestion++;
+      showQuestion();
+    }
+
+  }, 1000);
+}
+
+/***********************
+      SELECT ANSWER
+************************/
+
 function selectAnswer(index) {
+
+  clearInterval(timerInterval);
 
   if (index === shuffledQuestions[currentQuestion].correct) {
     score++;
   }
 
   currentQuestion++;
-
-  if (currentQuestion < shuffledQuestions.length) {
-    showQuestion();
-  } else {
-    showResult();
-  }
+  showQuestion();
 }
 
-// show result
+/***********************
+      RESULT
+************************/
+
 function showResult() {
 
   const container = document.getElementById("module-content");
+
+  saveHighScore(score);
+
+  const highScore = localStorage.getItem("quizHighScore") || 0;
 
   container.innerHTML = `
     <div class="quiz-box">
       <h2>Quiz Finished 🎉</h2>
       <p>Your Score: ${score} / ${shuffledQuestions.length}</p>
+      <p>🏆 High Score: ${highScore}</p>
       <button onclick="startQuiz()">Play Again</button>
     </div>
   `;
 }
 
+/***********************
+      HIGH SCORE SAVE
+************************/
 
-// make global (IMPORTANT)
+function saveHighScore(newScore) {
+
+  const currentHigh = localStorage.getItem("quizHighScore") || 0;
+
+  if (newScore > currentHigh) {
+    localStorage.setItem("quizHighScore", newScore);
+  }
+}
+
+/***********************
+      GLOBAL
+************************/
+
 window.startQuiz = startQuiz;
