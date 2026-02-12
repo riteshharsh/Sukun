@@ -136,16 +136,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     /* 🎮 GAMES */
     else if (module === "games") {
-      content.innerHTML = `
-        <h2>🎮 Game Zone</h2>
+  content.innerHTML = `
+    <h2>🎮 Game Zone</h2>
 
-        <button onclick="startQuiz('easy')">Easy Quiz 🎯</button>
-        <button onclick="startQuiz('medium')">Medium Quiz 🎯</button>
-        <button onclick="startQuiz('hard')">Hard Quiz 🎯</button>
-        <button onclick="startMixedQuiz()">
-        Challenge Mode 🏆
-       </button>
-    `;
+    <button onclick="startQuiz('easy')">
+      Easy Quiz 🎯
+    </button>
+
+    <button onclick="startQuiz('medium')">
+      Medium Quiz 🎯
+    </button>
+
+    <button onclick="startQuiz('hard')">
+      Hard Quiz 🎯
+    </button>
+
+    <button onclick="startMixedQuiz()">
+      Challenge Mode 🏆
+    </button>
+  `;
     }
 
     /* 🎡 WHEEL */
