@@ -1,6 +1,7 @@
 /* ================= GAME ENGINE ================= */
 
-function startFocusGame(content) {
+window.startFocusGame = function(content) {
+
   let score = 0;
   let timeLeft = 10;
 
@@ -35,12 +36,13 @@ function startFocusGame(content) {
       `;
     }
   }, 1000);
-}
+};
 
 
 /* ================= TRUTH DARE ================= */
 
-function startTruthDare(content) {
+window.startTruthDare = function(content) {
+
   const truths = [
     "Sabse bada secret kya hai?",
     "Kis par crush tha?",
@@ -54,6 +56,7 @@ function startTruthDare(content) {
   ];
 
   const type = Math.random() < 0.5 ? "Truth" : "Dare";
+
   const question = type === "Truth"
     ? truths[Math.floor(Math.random()*truths.length)]
     : dares[Math.floor(Math.random()*dares.length)];
@@ -65,12 +68,12 @@ function startTruthDare(content) {
       Next 🔁
     </button>
   `;
-}
+};
 
 
-/* ================= QUIZ STARTER ================= */
+/* ================= SIMPLE QUIZ ================= */
 
-function startQuizGame(content) {
+window.startQuizGame = function(content) {
 
   if (typeof quizData === "undefined") {
     content.innerHTML = "<p>Quiz data not loaded.</p>";
@@ -79,13 +82,14 @@ function startQuizGame(content) {
 
   let score = 0;
   let index = 0;
+
   let shuffled = [...quizData].sort(() => Math.random() - 0.5);
 
   function next() {
 
     if (index >= 5) {
       content.innerHTML = `
-        <h2>Quiz Finished</h2>
+        <h2>Quiz Finished 🎉</h2>
         <h3>Score: ${score}/5</h3>
         <button onclick="startQuizGame(document.getElementById('module-content'))">
           Play Again 🔁
@@ -99,8 +103,8 @@ function startQuizGame(content) {
 
     content.innerHTML = `
       <h3>Q${index}: ${q.q}</h3>
-      <button onclick="answer(0)">${q.a}</button>
-      <button onclick="answer(1)">${q.b}</button>
+      <button onclick="window.answer(0)">${q.a}</button>
+      <button onclick="window.answer(1)">${q.b}</button>
     `;
 
     window.answer = function(choice) {
@@ -110,4 +114,4 @@ function startQuizGame(content) {
   }
 
   next();
-}
+};
