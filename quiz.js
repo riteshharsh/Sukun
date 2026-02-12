@@ -251,20 +251,13 @@ const quizData = [
 let currentQuestion = 0;
 let score = 0;
 let shuffledQuestions = [];
-let timerInterval = null;
-let timeLeft = 15;
 
-/***********************
-      SHUFFLE
-************************/
-
+// shuffle
 function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
 }
 
-/***********************
-      START QUIZ
-************************/
+/* ================= START QUIZ BY LEVEL ================= */
 
 function startQuiz(level = "easy") {
 
@@ -281,9 +274,22 @@ function startQuiz(level = "easy") {
   showQuestion();
 }
 
-/***********************
-      SHOW QUESTION
-************************/
+/* ================= MIXED MODE ================= */
+
+function startMixedQuiz() {
+
+  const container = document.getElementById("module-content");
+  if (!container) return;
+
+  shuffledQuestions = shuffleArray([...quizData]);
+
+  currentQuestion = 0;
+  score = 0;
+
+  showQuestion();
+}
+
+/* ================= SHOW QUESTION ================= */
 
 function showQuestion() {
 
@@ -295,96 +301,58 @@ function showQuestion() {
     return;
   }
 
-  timeLeft = 15;
-  startTimer();
-
   container.innerHTML = `
     <div class="quiz-box">
       <h3>Question ${currentQuestion + 1} / ${shuffledQuestions.length}</h3>
-      <h4>⏳ Time Left: <span id="timer">${timeLeft}</span>s</h4>
       <p>${question.q}</p>
-      <button onclick="selectAnswer(0)">${question.a}</button>
-      <button onclick="selectAnswer(1)">${question.b}</button>
+
+      <button onclick="selectAnswer(0)">
+        ${question.a}
+      </button>
+
+      <button onclick="selectAnswer(1)">
+        ${question.b}
+      </button>
     </div>
   `;
 }
 
-/***********************
-      TIMER
-************************/
-
-function startTimer() {
-
-  clearInterval(timerInterval);
-
-  timerInterval = setInterval(() => {
-
-    timeLeft--;
-    const timerElement = document.getElementById("timer");
-    if (timerElement) timerElement.textContent = timeLeft;
-
-    if (timeLeft <= 0) {
-      clearInterval(timerInterval);
-      currentQuestion++;
-      showQuestion();
-    }
-
-  }, 1000);
-}
-
-/***********************
-      SELECT ANSWER
-************************/
+/* ================= SELECT ANSWER ================= */
 
 function selectAnswer(index) {
-
-  clearInterval(timerInterval);
 
   if (index === shuffledQuestions[currentQuestion].correct) {
     score++;
   }
 
   currentQuestion++;
-  showQuestion();
+
+  if (currentQuestion < shuffledQuestions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
 }
 
-/***********************
-      RESULT
-************************/
+/* ================= SHOW RESULT ================= */
 
 function showResult() {
 
   const container = document.getElementById("module-content");
 
-  saveHighScore(score);
-
-  const highScore = localStorage.getItem("quizHighScore") || 0;
-
   container.innerHTML = `
     <div class="quiz-box">
       <h2>Quiz Finished 🎉</h2>
       <p>Your Score: ${score} / ${shuffledQuestions.length}</p>
-      <p>🏆 High Score: ${highScore}</p>
-      <button onclick="startQuiz()">Play Again</button>
+
+      <button onclick="startMixedQuiz()">
+        Play Mixed Again 🔁
+      </button>
     </div>
   `;
 }
 
-/***********************
-      HIGH SCORE SAVE
-************************/
-
-function saveHighScore(newScore) {
-
-  const currentHigh = localStorage.getItem("quizHighScore") || 0;
-
-  if (newScore > currentHigh) {
-    localStorage.setItem("quizHighScore", newScore);
-  }
-}
-
-/***********************
-      GLOBAL
-************************/
+/* ================= MAKE GLOBAL ================= */
 
 window.startQuiz = startQuiz;
+window.startMixedQuiz = startMixedQuiz;
