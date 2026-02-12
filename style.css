@@ -1,4 +1,6 @@
-  :root {
+/* ================= ROOT COLORS ================= */
+
+:root {
   --bg1: #ffdee9;
   --bg2: #b5fffc;
   --card: #ffffff;
@@ -14,9 +16,11 @@ body.dark {
   --primary: #ff8fab;
 }
 
+/* ================= BODY ================= */
+
 body {
   margin: 0;
-  font-family: Segoe UI, sans-serif;
+  font-family: "Segoe UI", sans-serif;
   background: linear-gradient(135deg, var(--bg1), var(--bg2));
   color: var(--text);
   transition: 0.4s;
@@ -58,6 +62,11 @@ input, textarea {
   border-radius: 10px;
   border: 1px solid #ccc;
   font-family: inherit;
+  resize: none;
+}
+
+textarea {
+  min-height: 100px;
 }
 
 /* ================= BUTTON ================= */
@@ -71,6 +80,7 @@ button {
   color: white;
   cursor: pointer;
   transition: 0.2s;
+  font-weight: 600;
 }
 
 button:hover {
@@ -85,6 +95,7 @@ button:hover {
   max-width: 500px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
 }
 
@@ -104,11 +115,12 @@ button:hover {
   cursor: pointer;
   transition: 0.2s;
   text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
 }
 
 .emoji:hover {
   transform: scale(1.1);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
 }
 
 /* ================= MODULE CONTENT ================= */
@@ -117,6 +129,36 @@ button:hover {
   width: 100%;
   max-width: 500px;
   text-align: center;
+}
+
+/* ================= QUIZ BOX ================= */
+
+.quiz-box {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  margin-top: 10px;
+}
+
+.quiz-box button {
+  display: block;
+  width: 100%;
+}
+
+/* ================= DIARY HISTORY ================= */
+
+#diary-history {
+  margin-top: 20px;
+  text-align: left;
+}
+
+#diary-history p {
+  background: var(--card);
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
 /* ================= PHOTO MODULE ================= */
@@ -147,9 +189,20 @@ button:hover {
   transform: scale(1.1);
 }
 
+/* ================= WHEEL (Future Ready) ================= */
+
+.wheel-box {
+  background: var(--card);
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  margin-top: 15px;
+}
+
 /* ================= RESPONSIVE ================= */
 
 @media (max-width: 500px) {
+
   .emoji-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -157,4 +210,9 @@ button:hover {
   .drive-img {
     width: 100px;
   }
+
+  .quiz-box {
+    padding: 15px;
+  }
+
 }
