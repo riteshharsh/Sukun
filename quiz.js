@@ -236,92 +236,95 @@ const quizData = [
 { q: "Dishoom ka pace kaisa tha?", a: "Fast", b: "Slow", correct: 0, level: "medium" },
 { q: "Street Dancer 3D ka emotional message kya tha?", a: "Unity beyond borders", b: "Individual fame", correct: 0, level: "medium" },
 { q: "Badlapur me Raghu ka final emotional state kya tha?", a: "Broken yet free", b: "Carefree", correct: 0, level: "hard" }
-/* ================= QUIZ ENGINE ================= */
 
-let currentLevel = "";
-let currentIndex = 0;
+];
+/***********************
+  QUIZ DATA ABOVE
+  (Tumhara 200 question wala array yahin rahega)
+************************/
+
+
+/***********************
+      QUIZ ENGINE
+************************/
+
+let currentQuestion = 0;
 let score = 0;
-let filteredQuestions = [];
+let shuffledQuestions = [];
 
-
-/* ================= START QUIZ ================= */
-
-function startQuiz(container) {
-
-  container.innerHTML = `
-    <h2>🎯 Movie Quiz</h2>
-    <p>Select Level:</p>
-
-    <button onclick="setLevel('easy')">Easy</button>
-    <button onclick="setLevel('medium')">Medium</button>
-    <button onclick="setLevel('hard')">Hard</button>
-
-    <div id="quizArea"></div>
-  `;
+// shuffle function
+function shuffleArray(array) {
+  return array.sort(() => Math.random() - 0.5);
 }
 
+// start quiz
+function startQuiz(level = "easy") {
 
-/* ================= SET LEVEL ================= */
+  const container = document.getElementById("module-content");
+  if (!container) return;
 
-function setLevel(level) {
+  // filter by level
+  shuffledQuestions = shuffleArray(
+    quizData.filter(q => q.level === level)
+  );
 
-  currentLevel = level;
-  currentIndex = 0;
+  currentQuestion = 0;
   score = 0;
-
-  filteredQuestions = quizData.filter(q => q.level === level);
-
-  if (filteredQuestions.length === 0) {
-    document.getElementById("quizArea").innerHTML =
-      "<p>No questions available for this level.</p>";
-    return;
-  }
 
   showQuestion();
 }
 
-
-/* ================= SHOW QUESTION ================= */
-
+// show question
 function showQuestion() {
 
-  const area = document.getElementById("quizArea");
+  const container = document.getElementById("module-content");
+  const question = shuffledQuestions[currentQuestion];
 
-  if (currentIndex >= filteredQuestions.length) {
-
-    area.innerHTML = `
-      <h3>Quiz Finished 🎉</h3>
-      <p>Your Score: ${score} / ${filteredQuestions.length}</p>
-      <button onclick="restartQuiz()">Play Again 🔁</button>
-    `;
+  if (!question) {
+    showResult();
     return;
   }
 
-  const q = filteredQuestions[currentIndex];
-
-  area.innerHTML = `
-    <p><strong>Q${currentIndex + 1}:</strong> ${q.q}</p>
-    <button onclick="checkAnswer(0)">${q.a}</button>
-    <button onclick="checkAnswer(1)">${q.b}</button>
+  container.innerHTML = `
+    <div class="quiz-box">
+      <h3>Question ${currentQuestion + 1} / ${shuffledQuestions.length}</h3>
+      <p>${question.q}</p>
+      <button onclick="selectAnswer(0)">${question.a}</button>
+      <button onclick="selectAnswer(1)">${question.b}</button>
+    </div>
   `;
 }
 
+// select answer
+function selectAnswer(index) {
 
-/* ================= CHECK ANSWER ================= */
-
-function checkAnswer(selected) {
-
-  if (selected === filteredQuestions[currentIndex].correct) {
+  if (index === shuffledQuestions[currentQuestion].correct) {
     score++;
   }
 
-  currentIndex++;
-  showQuestion();
+  currentQuestion++;
+
+  if (currentQuestion < shuffledQuestions.length) {
+    showQuestion();
+  } else {
+    showResult();
+  }
+}
+
+// show result
+function showResult() {
+
+  const container = document.getElementById("module-content");
+
+  container.innerHTML = `
+    <div class="quiz-box">
+      <h2>Quiz Finished 🎉</h2>
+      <p>Your Score: ${score} / ${shuffledQuestions.length}</p>
+      <button onclick="startQuiz()">Play Again</button>
+    </div>
+  `;
 }
 
 
-/* ================= RESTART ================= */
-
-function restartQuiz() {
-  startQuiz(document.getElementById("module-content"));
-  }
+// make global (IMPORTANT)
+window.startQuiz = startQuiz;
