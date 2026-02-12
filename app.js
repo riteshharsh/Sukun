@@ -29,7 +29,7 @@ loginBtn.addEventListener("click", () => {
   welcomeText.textContent = `Welcome ${currentRole}`;
 });
 
-/* ================= SCREEN ================= */
+/* ================= SCREEN SWITCH ================= */
 
 function showScreen(screen) {
   document.querySelectorAll(".screen").forEach(s =>
@@ -46,10 +46,7 @@ backBtn.addEventListener("click", () =>
 
 function toggleDark() {
   document.body.classList.toggle("dark");
-  localStorage.setItem(
-    "darkMode",
-    document.body.classList.contains("dark")
-  );
+  localStorage.setItem("darkMode", document.body.classList.contains("dark"));
 }
 
 darkToggle.addEventListener("click", toggleDark);
@@ -131,6 +128,10 @@ function openModule(module) {
   else if (module === "games") {
     content.innerHTML = `
       <h2>🎮 Game Zone</h2>
+
+      <button onclick="startQuiz(document.getElementById('module-content'))">
+        Movie Quiz 🎯
+      </button>
 
       <button onclick="startFocusGame(document.getElementById('module-content'))">
         Focus Game ❤️
