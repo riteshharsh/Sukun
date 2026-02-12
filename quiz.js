@@ -325,4 +325,3 @@ function checkAnswer(selected) {
 function restartQuiz() {
   startQuiz(document.getElementById("module-content"));
   }
-];
