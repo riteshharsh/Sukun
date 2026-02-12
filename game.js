@@ -1,93 +1,113 @@
-/* ===============================
-   🎮 GAME MODULE
-=============================== */
+/* ================= GAME ENGINE ================= */
 
-/* 1️⃣ Focus Game */
 function startFocusGame(content) {
-
   let score = 0;
-  let timeLeft = 30;
-  let timer;
+  let timeLeft = 10;
 
   content.innerHTML = `
-    <h2>❤️ Focus Tap</h2>
-    <h3>Time: <span id="timer">30</span>s</h3>
-    <button id="tap-btn">❤️ TAP FAST</button>
+    <h2>❤️ Focus Game</h2>
+    <h3>Time Left: <span id="time">${timeLeft}</span></h3>
     <h3>Score: <span id="score">0</span></h3>
+    <button id="tapBtn">Tap Fast!</button>
   `;
 
-  const timerEl = document.getElementById("timer");
+  const timeEl = document.getElementById("time");
   const scoreEl = document.getElementById("score");
-  const tapBtn = document.getElementById("tap-btn");
+  const tapBtn = document.getElementById("tapBtn");
 
   tapBtn.onclick = () => {
     score++;
     scoreEl.textContent = score;
   };
 
-  timer = setInterval(() => {
+  const timer = setInterval(() => {
     timeLeft--;
-    timerEl.textContent = timeLeft;
+    timeEl.textContent = timeLeft;
 
     if (timeLeft <= 0) {
       clearInterval(timer);
-
       content.innerHTML = `
-        <h2>Time Over!</h2>
+        <h2>Game Over</h2>
         <h3>Your Score: ${score}</h3>
         <button onclick="startFocusGame(document.getElementById('module-content'))">
-          Tap Again 🔁
+          Play Again 🔁
         </button>
       `;
     }
-
   }, 1000);
 }
 
 
-/* 2️⃣ Truth & Dare */
-function startTruthDare(content) {
+/* ================= TRUTH DARE ================= */
 
+function startTruthDare(content) {
   const truths = [
-    "Tumne kabhi mujhe miss kiya?",
-    "Mera kaunsa habit cute lagta hai?",
-    "Tum jealous hote ho kabhi?",
-    "Sabse romantic moment?",
-    "Kab last time roye the?"
+    "Sabse bada secret kya hai?",
+    "Kis par crush tha?",
+    "Kab jhoot bola tha?"
   ];
 
   const dares = [
-    "Ek cute selfie bhejo 😜",
-    "5 minute sirf mujhe yaad karo 💙",
-    "Ek honest compliment do",
-    "Abhi hug emoji bhejo 🤗",
-    "Dil se ek line bolo"
+    "5 pushups karo 😄",
+    "Ek funny face banao",
+    "Loud me I love you bolo 😂"
   ];
 
+  const type = Math.random() < 0.5 ? "Truth" : "Dare";
+  const question = type === "Truth"
+    ? truths[Math.floor(Math.random()*truths.length)]
+    : dares[Math.floor(Math.random()*dares.length)];
+
   content.innerHTML = `
-    <h2>Truth or Dare?</h2>
-    <button id="truth-btn">Truth</button>
-    <button id="dare-btn">Dare</button>
-    <div id="td-result"></div>
+    <h2>🎲 ${type}</h2>
+    <p>${question}</p>
+    <button onclick="startTruthDare(document.getElementById('module-content'))">
+      Next 🔁
+    </button>
   `;
+}
 
-  document.getElementById("truth-btn").onclick = () => {
-    const random = truths[Math.floor(Math.random() * truths.length)];
-    document.getElementById("td-result").innerHTML = `
-      <p>${random}</p>
-      <button onclick="startTruthDare(document.getElementById('module-content'))">
-        Again 🔁
-      </button>
-    `;
-  };
 
-  document.getElementById("dare-btn").onclick = () => {
-    const random = dares[Math.floor(Math.random() * dares.length)];
-    document.getElementById("td-result").innerHTML = `
-      <p>${random}</p>
-      <button onclick="startTruthDare(document.getElementById('module-content'))">
-        Again 🔁
-      </button>
+/* ================= QUIZ STARTER ================= */
+
+function startQuizGame(content) {
+
+  if (typeof quizData === "undefined") {
+    content.innerHTML = "<p>Quiz data not loaded.</p>";
+    return;
+  }
+
+  let score = 0;
+  let index = 0;
+  let shuffled = [...quizData].sort(() => Math.random() - 0.5);
+
+  function next() {
+
+    if (index >= 5) {
+      content.innerHTML = `
+        <h2>Quiz Finished</h2>
+        <h3>Score: ${score}/5</h3>
+        <button onclick="startQuizGame(document.getElementById('module-content'))">
+          Play Again 🔁
+        </button>
+      `;
+      return;
+    }
+
+    const q = shuffled[index];
+    index++;
+
+    content.innerHTML = `
+      <h3>Q${index}: ${q.q}</h3>
+      <button onclick="answer(0)">${q.a}</button>
+      <button onclick="answer(1)">${q.b}</button>
     `;
-  };
+
+    window.answer = function(choice) {
+      if (choice === q.correct) score++;
+      next();
+    };
+  }
+
+  next();
 }
