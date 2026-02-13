@@ -37,14 +37,19 @@ document.addEventListener("DOMContentLoaded", function () {
     showScreen(dashboardScreen);
     welcomeText.textContent = `Welcome ${window.currentRole}`;
 
-    /* ================= DAILY LOGIN STREAK ================= */
+    handleStreak();
+  });
+
+  /* ================= DAILY LOGIN STREAK ================= */
+
+  function handleStreak() {
 
     const today = new Date().toDateString();
     const lastLogin = localStorage.getItem("lastLoginDate");
     let streak = parseInt(localStorage.getItem("loginStreak")) || 0;
 
     if (lastLogin === today) {
-      // same day login, do nothing
+      // same day login → no change
     } else {
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
@@ -60,15 +65,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     showStreak();
-  });
-
-  /* ================= SHOW STREAK ================= */
+  }
 
   function showStreak() {
 
     const streak = localStorage.getItem("loginStreak") || 0;
 
-    // remove old streak if already exists
     const old = document.getElementById("streak-box");
     if (old) old.remove();
 
@@ -78,7 +80,8 @@ document.addEventListener("DOMContentLoaded", function () {
     streakBox.style.fontWeight = "bold";
     streakBox.style.marginLeft = "10px";
 
-    document.querySelector(".top-bar").appendChild(streakBox);
+    document.querySelector("#dashboard-screen .top-bar")
+      .appendChild(streakBox);
   }
 
   /* ================= SCREEN SWITCH ================= */
@@ -122,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const content = document.getElementById("module-content");
 
+    /* 😊 DAILY */
     if (module === "daily") {
       content.innerHTML = `
         <h2>😊 Daily Sukoon</h2>
@@ -131,15 +135,90 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
     }
 
+    /* 😔 SAD */
+    else if (module === "sad") {
+      if (typeof openSadModule === "function") {
+        openSadModule(content);
+      } else {
+        content.innerHTML = "<p>Sad module not loaded.</p>";
+      }
+    }
+
+    /* 😘 PHOTOS */
+    else if (module === "photos") {
+      if (typeof openPhotosModule === "function") {
+        openPhotosModule(content);
+      } else {
+        content.innerHTML = "<p>Photos module not loaded.</p>";
+      }
+    }
+
+    /* 😂 JOKES */
+    else if (module === "jokes") {
+      if (typeof startJokesEngine === "function") {
+        startJokesEngine(content);
+      } else {
+        content.innerHTML = "<p>Jokes engine not loaded.</p>";
+      }
+    }
+
+    /* 😡 GUSSA */
+    else if (module === "gussa") {
+      if (typeof openGussaModule === "function") {
+        openGussaModule(content);
+      } else {
+        content.innerHTML = "<p>Gussa module not loaded.</p>";
+      }
+    }
+
+    /* 😴 NIGHT */
+    else if (module === "night") {
+      if (typeof openNightModule === "function") {
+        openNightModule(content);
+      } else {
+        content.innerHTML = "<p>Night module not loaded.</p>";
+      }
+    }
+
+    /* 🎮 GAMES */
     else if (module === "games") {
       content.innerHTML = `
         <h2>🎮 Game Zone</h2>
 
-        <button onclick="startQuiz('easy')">Easy Quiz 🎯</button>
-        <button onclick="startQuiz('medium')">Medium Quiz 🎯</button>
-        <button onclick="startQuiz('hard')">Hard Quiz 🎯</button>
-        <button onclick="startMixedQuiz()">Challenge Mode 🏆</button>
+        <button onclick="startQuiz('easy')">
+          Easy Quiz 🎯
+        </button>
+
+        <button onclick="startQuiz('medium')">
+          Medium Quiz 🎯
+        </button>
+
+        <button onclick="startQuiz('hard')">
+          Hard Quiz 🎯
+        </button>
+
+        <button onclick="startMixedQuiz()">
+          Challenge Mode 🏆
+        </button>
       `;
+    }
+
+    /* 🎡 WHEEL */
+    else if (module === "wheel") {
+      if (typeof openWheelModule === "function") {
+        openWheelModule(content);
+      } else {
+        content.innerHTML = "<p>Wheel module not loaded.</p>";
+      }
+    }
+
+    /* 💌 DIARY */
+    else if (module === "diary") {
+      if (typeof diaryModule === "function") {
+        diaryModule(content, window.currentRole);
+      } else {
+        content.innerHTML = "<p>Diary module not loaded.</p>";
+      }
     }
 
     else {
