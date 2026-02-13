@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const code = passInput.value.trim();
 
     if (code === "2016") window.currentRole = "Owner";
-    else if (code === "14.25") window.currentRole = "Visitor";
+    else if (code === "14.25") window.currentRole = "DoDo";
     else if (code === "2002") window.currentRole = "Public";
     else {
       alert("Wrong Passcode");
