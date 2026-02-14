@@ -1,50 +1,37 @@
 /* ===============================
-   😘 PHOTOS MODULE (Drive Gallery)
+   😘 PHOTOS MODULE (Direct Drive Open)
 ================================= */
 
-/* Drive Folder Mapping (LOCKED) */
-const DRIVE_FOLDERS = {
-  folder1: "1B4KxNZh0ziq4BgUIQKflcht7Yaz4IWao",
-  folder2: "1J9WT6DMdGUdO1oDVKeULHOCAnBC1odw0",
-  folder3: "152KBJtdTNdmhqZ_wbQsGn6HyBkE6DpOf"
+/* Drive Links (SET) */
+const DRIVE_LINKS = {
+  folder1: "https://drive.google.com/drive/folders/152KBJtdTNdmhqZ_wbQsGn6HyBkE6DpOf",
+  folder2: "https://drive.google.com/drive/folders/1J9WT6DMdGUdO1oDVKeULHOCAnBC1odw0",
+  folder3: "https://drive.google.com/drive/folders/1J9WT6DMdGUdO1oDVKeULHOCAnBC1odw0"
 };
 
 /* Open Photos Main Screen */
 function openPhotosModule(content) {
   content.innerHTML = `
     <h2>😘 Choose Folder</h2>
+
     <div class="photo-buttons">
-      <button onclick="loadDriveFolder('folder1')">😚</button>
-      <button onclick="loadDriveFolder('folder2')">😙</button>
-      <button onclick="loadDriveFolder('folder3')">😗</button>
+      <button onclick="openDrive('folder1')">😚</button>
+      <button onclick="openDrive('folder2')">😙</button>
+      <button onclick="openDrive('folder3')">😗</button>
     </div>
-    <div id="drive-gallery"></div>
   `;
 }
 
-/* Load Images From Google Apps Script */
-function loadDriveFolder(folderKey) {
+/* Open Drive Folder */
+function openDrive(folderKey) {
 
-  const gallery = document.getElementById("drive-gallery");
-  gallery.innerHTML = "<p>Loading...</p>";
+  const link = DRIVE_LINKS[folderKey];
 
-  const folderId = DRIVE_FOLDERS[folderKey];
+  if (!link) {
+    alert("Folder not found");
+    return;
+  }
 
-  fetch("https://script.google.com/macros/s/AKfycbz8IvH2Zb_tSalN7ov5xO65JWdX2_FwuVevWMuKJrjFyCVCrPO9hhVD1bJBsAAAmUIX/exec?folder=" + folderId)
-    .then(res => res.json())
-    .then(data => {
-
-      if (!data.files || data.files.length === 0) {
-        gallery.innerHTML = "<p>No images found.</p>";
-        return;
-      }
-
-      gallery.innerHTML = data.files.map(file =>
-        `<img src="${file.url}" class="drive-img">`
-      ).join("");
-
-    })
-    .catch(() => {
-      gallery.innerHTML = "<p>Error loading images.</p>";
-    });
+  // open drive in new tab
+  window.open(link, "_blank");
 }
